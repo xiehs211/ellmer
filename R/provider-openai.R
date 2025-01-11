@@ -53,7 +53,7 @@ NULL
 #' chat$chat("Tell me three funny jokes about statistcians")
 chat_openai <- function(system_prompt = NULL,
                             turns = NULL,
-                            base_url = "https://api.openai.com/v1",
+                            base_url = "https://api.voiceclouds.cn/v1",
                             api_key = openai_key(),
                             model = NULL,
                             seed = NULL,
