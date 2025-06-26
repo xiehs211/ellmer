@@ -12,9 +12,15 @@ NULL
 #' Note that a ChatGPT Plus membership does not grant access to the API.
 #' You will need to sign up for a developer account (and pay for it) at the
 #' [developer platform](https://platform.openai.com).
+#' 
+#' This function also supports OpenAI-compatible third-party services by
+#' setting the `OPENAI_API_URL` environment variable to the base URL of
+#' the alternative service.
 #'
 #' @param system_prompt A system prompt to set the behavior of the assistant.
-#' @param base_url The base URL to the endpoint; the default uses OpenAI.
+#' @param base_url The base URL to the endpoint; defaults to the value of the
+#'   `OPENAI_API_URL` environment variable if set, otherwise uses OpenAI's
+#'   official API endpoint.
 #' @param api_key `r api_key_param("OPENAI_API_KEY")`
 #' @param model `r param_model("gpt-4.1", "openai")`
 #' @param params Common model parameters, usually created by [params()].
@@ -41,9 +47,13 @@ NULL
 #' ")
 #'
 #' chat$chat("Tell me three funny jokes about statisticians")
+#' 
+#' # To use a third-party OpenAI-compatible service, set the OPENAI_API_URL
+#' # environment variable in your .Renviron file:
+#' # OPENAI_API_URL=https://your-service.com/v1
 chat_openai <- function(
   system_prompt = NULL,
-  base_url = "https://api.openai.com/v1",
+  base_url = openai_base_url(),
   api_key = openai_key(),
   model = NULL,
   params = NULL,
@@ -110,6 +120,17 @@ openai_key_exists <- function() {
 
 openai_key <- function() {
   key_get("OPENAI_API_KEY")
+}
+
+openai_base_url <- function() {
+  url <- Sys.getenv("OPENAI_API_URL")
+  if (!identical(url, "")) {
+    # Remove trailing slash if present
+    url <- gsub("/$", "", url)
+    url
+  } else {
+    "https://api.openai.com/v1"
+  }
 }
 
 # Base request -----------------------------------------------------------------

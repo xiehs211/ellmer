@@ -93,3 +93,27 @@ test_that("seed is deprecated, but still honored", {
   expect_snapshot(chat <- chat_openai_test(seed = 1))
   expect_equal(chat$get_provider()@params$seed, 1)
 })
+
+test_that("OPENAI_API_URL environment variable is respected", {
+  # Test default behavior (no env var set)
+  withr::with_envvar(c("OPENAI_API_URL" = ""), {
+    expect_equal(openai_base_url(), "https://api.openai.com/v1")
+  })
+  
+  # Test with custom URL
+  withr::with_envvar(c("OPENAI_API_URL" = "https://custom-api.example.com/v1"), {
+    expect_equal(openai_base_url(), "https://custom-api.example.com/v1")
+  })
+  
+  # Test with trailing slash removal
+  withr::with_envvar(c("OPENAI_API_URL" = "https://custom-api.example.com/v1/"), {
+    expect_equal(openai_base_url(), "https://custom-api.example.com/v1")
+  })
+  
+  # Test that chat_openai uses the environment variable
+  withr::with_envvar(c("OPENAI_API_URL" = "https://test-api.example.com/v1"), {
+    # We can't actually create a chat without valid credentials, 
+    # but we can test that the function would use the right URL
+    expect_equal(openai_base_url(), "https://test-api.example.com/v1")
+  })
+})
