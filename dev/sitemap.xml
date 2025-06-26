@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://ellmer.tidyverse.org/dev/LICENSE-text.html</loc></url>
 <url><loc>https://ellmer.tidyverse.org/dev/LICENSE.html</loc></url>
+<url><loc>https://ellmer.tidyverse.org/dev/OPENAI_API_URL_EXAMPLE.html</loc></url>
 <url><loc>https://ellmer.tidyverse.org/dev/articles/ellmer.html</loc></url>
 <url><loc>https://ellmer.tidyverse.org/dev/articles/index.html</loc></url>
 <url><loc>https://ellmer.tidyverse.org/dev/articles/programming.html</loc></url>
